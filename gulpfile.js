@@ -19,6 +19,24 @@ const rename = require('gulp-rename');
 const server = require('browser-sync').create();
 const sequence = require('run-sequence');
 
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
+
+// Создаем таск для сборки js файлов
+
+gulp.task('js', function () {
+  return gulp.src('src/js/*.js')
+    .pipe(concat('all.js'))
+    .pipe(
+      babel({
+        presets: ["env"]
+      })
+    )
+    .pipe(uglify('all.js'))
+    .pipe(gulp.dest('dist/js'))
+});
+
 // Создаем таск для сборки html файлов
 gulp.task('html', () =>
   // Берем все файлы с расширением html в папке src
